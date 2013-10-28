@@ -88,7 +88,7 @@ function generateTable(table, options) {
 	var thead = $('<thead>' +
 		'  <tr>' +
 		'    <th></th>' +
-		'    <th>Name</th>' +
+		'    <th>Name' + remark(2, '<span class="glyphicon glyphicon-question-sign"></span> Zu dieser User Story sind Notizen hinterlegt.') + '</th>' +
 		'    <th>Beschreibung</th>' +
 		'    <th>Abnahme</th>' +
 		'    <th>Demo</th>' +
@@ -120,11 +120,13 @@ function generateTable(table, options) {
 		var tr = $('<tr id="story' + story.id + '"></tr>');
 		maxId = Math.max(story.id, maxId);
 		tr.append('<td>#' + story.id + '</td>');
-		tr.append('<td>' + story.name + '</td>');
+		tr.append('<td>' + 
+			story.name + 
+			(story.notes != null ? ' <span class="glyphicon glyphicon-question-sign"></span>' : '') +
+			'</td>');
 		tr.append('<td>' + explain(story.description) + '</td>');
 		tr.append('<td>' + 
 			generateList(story.acceptanceTerms) + 
-			(story.notes != null ? '<span class="visible-print glyphicon glyphicon-question-sign"></span>' : '') +
 			'</td>');
 		tr.append('<td>' + generateList(story.demoProcedure, 'ordered') + '</td>');
 		tr.append('<td>' + (story.points || (('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') || '')) + '</td>');
