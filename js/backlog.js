@@ -12,7 +12,7 @@ function explain(string) {
 	var _i, _len;
 	for (_i = 0, _len = definitions.length; _i < _len; _i++) {
 		var definition = definitions[_i];
-		string = string.replace(definition.term, '<span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span>');
+		string = string.replace(definition.term, '<a href="#definition' + _i + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
 	}
 	return string;
 }
@@ -20,42 +20,70 @@ function explain(string) {
 var stories = [];
 
 function story(content) {
-  stories.push(content);
-  return false;
+	stories.push(content);
+	return false;
+}
+
+var remarks = [];
+
+function remark(id, content) {
+	if (content != null) {
+		remarks[id] = content;
+	}
+	return refRemark(id);
+}
+
+function refRemark(id) {
+	return '<a href="#remark' + id + '"><sup>' + id + '</sup></a>';
+}
+
+function generateRemarks() {
+	var result = '';
+	for (id in remarks) {
+		result += '<p><b id="remark"' + id + '">' + id + ':</b> ' + remarks[id] + '</p>'
+	}
+	return result
 }
 
 function backlog(element) {
-	var checkbox = element.append('<div class="pull-right hidden-print"><div class="checkbox"><label><input type="checkbox"> Ohne Sprint</label></div></div>').find('input');
+	element.append('<div class="pull-right hidden-print"><div class="checkbox"><input type="checkbox" id="withoutSprint" /> <label for="withoutSprint">Ohne Sprint</label></div></div>');
+	var checkbox = element.find('#withoutSprint');
 	checkbox.on('change', function(event) {
 		table.empty();
-		generateTable(table, !checkbox.prop('checked'));
+		generateTable(table, {
+			filterSprints: !checkbox.prop('checked')
+		});
 		return false;
 	});
 
 	var table = $('<table class="table table-condensed">' +
 		'</table>');
 	
-	generateTable(table, !checkbox.prop('checked'));
+	generateTable(table, {
+		filterSprints: !checkbox.prop('checked')
+	});
 	
 	element.append('<h2>Backlog</h2>');
 	element.append(table);
+	element.append(generateRemarks());
 
 	var dl = $('<dl></dl>')
 
 	var _i, _len;
 	for (_i = 0, _len = definitions.length; _i < _len; _i++) {
 		var definition = definitions[_i];
-		dl.append('<dt>' + definition.term + '</dt>');
+		dl.append('<dt id="definition' + _i + '">' + definition.term + '</dt>');
 		dl.append('<dd>' + explain(definition.explanation) + '</dd>');
 	}
 
-	element.append('<h2>Glossar</h2>');
+	element.append('<h2 id="glossar">Glossar</h2>');
 	element.append(dl);
 	
 	return false;
 }
 
-function generateTable(table, filterSprints) {
+function generateTable(table, options) {
+	var filterSprints = options.filterSprints || false;
 	var tbody = $('<tbody></tbody>')
 	var thead = $('<thead>' +
 		'  <tr>' +
@@ -64,9 +92,11 @@ function generateTable(table, filterSprints) {
 		'    <th>Beschreibung</th>' +
 		'    <th>Abnahme</th>' +
 		'    <th>Demo</th>' +
-		'    <th>Story Points</th>' +
+		'    <th>Story Points' + remark(1, 'Werte in Klammern sind eine unverbindliche Schätzung.') + '</th>' +
 		'    <th>Priorität</th>' +
 		'    <th>Sprint</th>' +
+		'    <th class="hidden-print">Notizen</th>' +
+		'    <th>Abhängig&shy;keiten</th>' +
 		'  </tr>' +
 		'</thead>');	
 	table.append(thead).append(tbody)
@@ -87,35 +117,53 @@ function generateTable(table, filterSprints) {
 	var _i, _len;
 	for (_i = 0, _len = storiesFiltered.length; _i < _len; _i++) {
 		var story = storiesFiltered[_i];
-		var tr = $('<tr></tr>');
+		var tr = $('<tr id="story' + story.id + '"></tr>');
 		maxId = Math.max(story.id, maxId);
 		tr.append('<td>#' + story.id + '</td>');
 		tr.append('<td>' + story.name + '</td>');
 		tr.append('<td>' + explain(story.description) + '</td>');
-		terms = '<td><ul>'
-		for (var term in story.acceptanceTerms) {
-			terms += '<li>' + story.acceptanceTerms[term] + '</li>';
+		tr.append('<td>' + 
+			generateList(story.acceptanceTerms) + 
+			(story.notes != null ? '<span class="visible-print glyphicon glyphicon-question-sign"></span>' : '') +
+			'</td>');
+		tr.append('<td>' + generateList(story.demoProcedure, 'ordered') + '</td>');
+		tr.append('<td>' + (story.points || (('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') || '')) + '</td>');
+		tr.append('<td>' + (story.priority || '') + '</td>');
+		tr.append('<td>' +
+			(story.sprint != null ? ('<span class="badge">' + story.sprint + '</span>') : '') +
+			'</td>');
+		tr.append('<td class="hidden-print">' + generateList(story.notes) + '</td>');
+		var dependencies = '';
+		if (story.dependencies != null) {
+			var _i2, _len2;
+			for (_i2 = 0, _len2 = story.dependencies.length; _i2 < _len2; _i2++) {
+				var dependency = story.dependencies[_i2];
+				if (dependencies != '') {
+					dependencies += ', ';
+				}
+				dependencies += '<a href="#story' + dependency + '">#' + dependency + '</a>';
+			}
 		}
-		terms += '</ul></td>';
-		tr.append(terms);
-		steps = '<td><ol>'
-		for (var step in story.demoProcedure) {
-			steps += '<li>' + story.demoProcedure[step] + '</li>';
-		}
-		steps += '</ol></td>';
-		tr.append(steps);
-		tr.append('<td>' + (story.points || '') + '</td>');
-		tr.append('<td>' + (story.priority != null ? story.priority : '') + '</td>');
-		tr.append('<td>' 
-			+ (story.sprint != null ? ('<span class="badge">' + story.sprint + '</span>') : '')
-			+ (story.notes != null ? ' <span title="' + story.notes + '" class="glyphicon glyphicon-question-sign"></span>' : '') 
-			+ '</td>');
+		tr.append('<td>' + dependencies + '</td>');
 		tbody.append(tr);
 	}
 	
 	console.log('Next ID: #' + (maxId + 1));
 	
 	return false;
+}
+
+function generateList(values, style) {
+	var listTag = 'ul';
+	if (style === 'ordered') {
+		listTag = 'ol'
+	}
+	var list = '<' + listTag + '>';
+	for (var index in values) {
+		list += '<li>' + values[index] + '</li>';
+	}
+	list += '</' + listTag + '>';
+	return list
 }
 
 function errorHandler(message, file, line) {

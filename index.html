@@ -17,7 +17,7 @@
 
 story
 	id: 1
-	name: ''
+	name: 'Käse'
 	description: 'Als Maus möchte ich ganz viel Käse im Kühlschrank haben, um immer satt und glücklich zu sein.'
 	acceptanceTerms: [
 		'1kg Käse im Kühlschrank'
@@ -30,10 +30,13 @@ story
 	priority: 999
 	points: 42
 	sprint: 1
+	notes: [
+		'Welche Sorte Käse?'
+	]
 
 story
 	id: 2
-	name: ''
+	name: 'Mauseloch'
 	description: 'Als Maus möchte ich ein Mauseloch in der Wand haben, um vor der Katze sicher zu sein.'
 	acceptanceTerms: [
 		'Am Boden bündiges Loch in der Wand'
@@ -48,6 +51,27 @@ story
 	priority: 995
 	points: 13
 	sprint: 1
+
+story
+	id: 3
+	name: 'Dekoration'
+	description: 'Als Maus möchte ich eine schöne Einrichtung für mein Mauseloch, damit ich mich wohl fühle.'
+	acceptanceTerms: [
+		'Ein Bett im Mauseloch'
+		'Ein Schrank im Mauseloch'
+		'Ein Tisch im Mauseloch'
+	]
+	demoProcedure: [
+		'Rundgang durch das Mauseloch'
+		'Bett zeigen'
+		'Schrank zeigen'
+		'Tisch zeigen'
+	]
+	dependencies: [
+		2
+	]
+	priority: 900
+	estPoints: 20
 	
 definition 'Maus', 'Eine Hausmaus (Mus musculus), die in von Menschen bewohnten Häusern lebt.'
 definition 'Katze', 'Der Erzfeind aller Hausmäuse - je satter, desto ungefährlicher.'

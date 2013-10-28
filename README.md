@@ -4,6 +4,7 @@ Backlog.js is a template for [Scrum](http://en.wikipedia.org/wiki/Scrum_%28softw
 
 ## Features
 
+- Simple to use
 - Easy to modify
 - Easy to print (to PDF)
 
