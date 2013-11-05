@@ -142,7 +142,7 @@ function generateTable(table, options) {
 			generateList(story.acceptanceTerms) + 
 			'</td>');
 		tr.append('<td>' + generateList(story.demoProcedure, 'ordered') + '</td>');
-		tr.append('<td>' + (story.points != null ? story.points + (story.sprint != null ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') : (('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') || '')) + '</td>');
+		tr.append('<td>' + (story.points != null ? story.points + (story.sprint != null ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') : (story.estPoints != null ? ('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') : '')) + '</td>');
 		tr.append('<td>' + (story.priority || '') + '</td>');
 		tr.append('<td>' +
 			(story.sprint != null ? ('<span class="badge">' + story.sprint + '</span>') : '') +
@@ -189,8 +189,12 @@ function generateList(values, style) {
 		listTag = 'ol'
 	}
 	var list = '<' + listTag + '>';
-	for (var index in values) {
-		list += '<li>' + values[index] + '</li>';
+	if (typeof values === 'string') {
+		list += '<li>' + values + '</li>';
+	} else {
+		for (var index in values) {
+			list += '<li>' + values[index] + '</li>';
+		}
 	}
 	list += '</' + listTag + '>';
 	return list
