@@ -83,8 +83,9 @@ function backlog(element) {
 }
 
 function generateTable(table, options) {
+	var sprintStoryPoints = calculateSprintStoryPoints();
 	var filterSprints = options.filterSprints || false;
-	var tbody = $('<tbody></tbody>')
+	var tbody = $('<tbody></tbody>');
 	var thead = $('<thead>' +
 		'  <tr>' +
 		'    <th></th>' +
@@ -92,14 +93,18 @@ function generateTable(table, options) {
 		'    <th>Beschreibung</th>' +
 		'    <th>Abnahme</th>' +
 		'    <th>Demo</th>' +
-		'    <th>Story Points' + remark(1, 'Werte in Klammern sind eine unverbindliche Schätzung.') + '</th>' +
+		'    <th>Story Points' +
+			remark(1, 'Werte in Klammern sind eine unverbindliche Schätzung.') +
+			'<sup>,</sup>' +
+			remark(3, 'Die Prozente geben den Anteil am Gesamtaufwand (Summe aller Story Points) für den Sprint an.') +
+			'</th>' +
 		'    <th>Priorität</th>' +
 		'    <th>Sprint</th>' +
 		'    <th class="hidden-print">Notizen</th>' +
 		'    <th>Abhängig&shy;keiten</th>' +
 		'  </tr>' +
 		'</thead>');	
-	table.append(thead).append(tbody)
+	table.append(thead).append(tbody);
 	
 	storiesFiltered = stories.filter(function(a) {
 		return filterSprints || a.sprint == null;
@@ -115,9 +120,17 @@ function generateTable(table, options) {
 	
 	var maxId = 0;
 	var _i, _len;
+	var lastSprint = -1;
 	for (_i = 0, _len = storiesFiltered.length; _i < _len; _i++) {
 		var story = storiesFiltered[_i];
-		var tr = $('<tr id="story' + story.id + '"></tr>');
+		var newSprint = false;
+		if (lastSprint != story.sprint) {
+			if (lastSprint !== -1) {
+				newSprint = true;
+			}
+			lastSprint = story.sprint;
+		}
+		var tr = $('<tr id="story' + story.id + '"' + (newSprint ? ' class="newsprint"' : '') + '></tr>');
 		maxId = Math.max(story.id, maxId);
 		tr.append('<td>#' + story.id + '</td>');
 		tr.append('<td>' + 
@@ -129,7 +142,7 @@ function generateTable(table, options) {
 			generateList(story.acceptanceTerms) + 
 			'</td>');
 		tr.append('<td>' + generateList(story.demoProcedure, 'ordered') + '</td>');
-		tr.append('<td>' + (story.points || (('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') || '')) + '</td>');
+		tr.append('<td>' + (story.points != null ? story.points + (story.sprint != null ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') : (('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') || '')) + '</td>');
 		tr.append('<td>' + (story.priority || '') + '</td>');
 		tr.append('<td>' +
 			(story.sprint != null ? ('<span class="badge">' + story.sprint + '</span>') : '') +
@@ -153,6 +166,21 @@ function generateTable(table, options) {
 	console.log('Next ID: #' + (maxId + 1));
 	
 	return false;
+}
+
+function calculateSprintStoryPoints() {
+	var result = {};
+	for (i = 0; i < stories.length; i++) {
+		var story = stories[i];
+		var sprint = story.sprint;
+		if (sprint != null && story.points != null) {
+			if (result[sprint] == null) {
+				result[sprint] = 0;
+			}
+			result[sprint] += story.points;
+		}
+	}
+	return result;
 }
 
 function generateList(values, style) {
