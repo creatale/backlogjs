@@ -16,6 +16,9 @@
 tr.newsprint td {
 	border-top: 1px solid #000 !important;
 }
+#sidebar > * {
+	display: inline-block;
+}
 
 ul {
 	padding-left: 1em;

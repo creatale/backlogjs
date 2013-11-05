@@ -24,6 +24,19 @@ function story(content) {
 	return false;
 }
 
+var sprints = {};
+
+function sprint(content) {
+	if (typeof content.start === 'string') {
+		content.start = moment(content.start, 'DD.MM.YYYY');
+	}
+	if (typeof content.end === 'string') {
+		content.end = moment(content.end, 'DD.MM.YYYY');
+	}
+	sprints[content.id] = content;
+	return false;
+}
+
 var remarks = [];
 
 function remark(id, content) {
@@ -45,8 +58,22 @@ function generateRemarks() {
 	return result
 }
 
+function generateGoToSprint() {
+	var div = $('<div>Gehe zu Sprint: </div>');
+	var sortedStories = stories.sort(byPriority);
+	var lastSprint = -1;
+		
+	for (var i = 0; i < sortedStories.length; i++) {
+		if (sortedStories[i].sprint != null && sortedStories[i].sprint != lastSprint) {
+			div.append(' <a href="#story' + sortedStories[i].id +'" class="btn btn-default btn-sm">' + sortedStories[i].sprint + '</a>');
+		}
+		lastSprint = sortedStories[i].sprint;
+	}
+	return div;
+}
+
 function backlog(element) {
-	element.append('<div class="pull-right hidden-print"><div class="checkbox"><input type="checkbox" id="withoutSprint" /> <label for="withoutSprint">Ohne Sprint</label></div></div>');
+	element.append('<div id="sidebar" class="pull-right hidden-print"><div class="checkbox"><input type="checkbox" id="withoutSprint" /> <label for="withoutSprint">Ohne Sprint</label></div></div>');
 	var checkbox = element.find('#withoutSprint');
 	checkbox.on('change', function(event) {
 		table.empty();
@@ -64,6 +91,7 @@ function backlog(element) {
 	});
 	
 	element.append('<h2>Backlog</h2>');
+	element.append(generateGoToSprint());
 	element.append(table);
 	element.append(generateRemarks());
 
@@ -80,6 +108,16 @@ function backlog(element) {
 	element.append(dl);
 	
 	return false;
+}
+
+function byPriority(a, b) {
+	if (a.priority > b.priority || b.priority == null) {
+		return -1;
+	} if (a.priority < b.priority || a.priority == null) {
+		return 1;
+	} else {
+		return 0;
+	}
 }
 
 function generateTable(table, options) {
@@ -108,15 +146,7 @@ function generateTable(table, options) {
 	
 	storiesFiltered = stories.filter(function(a) {
 		return filterSprints || a.sprint == null;
-	}).sort(function(a, b) {
-		if (a.priority > b.priority || b.priority == null) {
-			return -1;
-		} if (a.priority < b.priority || a.priority == null) {
-			return 1;
-		} else {
-			return 0;
-		}
-	});
+	}).sort(byPriority);
 	
 	var maxId = 0;
 	var _i, _len;
@@ -145,7 +175,9 @@ function generateTable(table, options) {
 		tr.append('<td>' + (story.points != null ? story.points + (story.sprint != null ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') : (story.estPoints != null ? ('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') : '')) + '</td>');
 		tr.append('<td>' + (story.priority || '') + '</td>');
 		tr.append('<td>' +
-			(story.sprint != null ? ('<span class="badge">' + story.sprint + '</span>') : '') +
+			(story.sprint != null ? ('<span class="badge"' + 
+				(sprints[story.sprint] != null ? ' title="' + sprints[story.sprint].start.format('DD.MM.YYYY') + ' - ' + sprints[story.sprint].end.format('DD.MM.YYYY') + '"' : '') + 
+				'>' + story.sprint + '</span>') : '') +
 			'</td>');
 		tr.append('<td class="hidden-print">' + generateList(story.notes) + '</td>');
 		var dependencies = '';
