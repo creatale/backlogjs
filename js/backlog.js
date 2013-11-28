@@ -1,4 +1,4 @@
-var definitions = [];
+﻿var definitions = [];
 
 function definition(term, explanation) {
 	definitions.push({
@@ -10,9 +10,14 @@ function definition(term, explanation) {
 
 function explain(string) {
 	var _i, _len;
+	// replace explained in two passes to avoid replacing terms in the title attribute of the explantion
 	for (_i = 0, _len = definitions.length; _i < _len; _i++) {
 		var definition = definitions[_i];
-		string = string.replace(definition.term, '<a href="#definition' + _i + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
+		string = string.replace(definition.term, '<a href="#definition' + _i + '"><span class="text-info" title="">' + definition.term + '</span></a>');
+	}
+	for (_i = 0, _len = definitions.length; _i < _len; _i++) {
+		var definition = definitions[_i];
+		string = string.replace('<a href="#definition' + _i + '"><span class="text-info" title="">' + definition.term + '</span></a>', '<a href="#definition' + _i + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
 	}
 	return string;
 }
