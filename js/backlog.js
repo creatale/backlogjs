@@ -64,7 +64,7 @@ function generateRemarks() {
 }
 
 function generateGoToSprint() {
-	var div = $('<div>Gehe zu Sprint: </div>');
+	var div = $('<div class="hidden-print">Gehe zu Sprint: </div>');
 	var sortedStories = stories.sort(byPriority);
 	var lastSprint = -1;
 		
@@ -177,7 +177,7 @@ function generateTable(table, options) {
 			generateList(story.acceptanceTerms) + 
 			'</td>');
 		tr.append('<td>' + generateList(story.demoProcedure, 'ordered') + '</td>');
-		tr.append('<td>' + (story.points != null ? story.points + (story.sprint != null ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') : (story.estPoints != null ? ('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') : '')) + '</td>');
+		tr.append('<td>' + (story.points != null ? story.points + ((story.sprint != null && !story.extra) ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') : (story.estPoints != null ? ('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') : '')) + '</td>');
 		tr.append('<td>' + (story.priority || '') + '</td>');
 		tr.append('<td>' +
 			(story.sprint != null ? ('<span class="badge"' + 
@@ -214,7 +214,9 @@ function calculateSprintStoryPoints() {
 			if (result[sprint] == null) {
 				result[sprint] = 0;
 			}
-			result[sprint] += story.points;
+			if (!story.extra) {
+				result[sprint] += story.points;
+			}
 		}
 	}
 	return result;
