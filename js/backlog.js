@@ -127,6 +127,7 @@ function byPriority(a, b) {
 
 function generateTable(table, options) {
 	var sprintStoryPoints = calculateSprintStoryPoints();
+	var storiesPerPriority = countStoriesPerPriority();
 	var filterSprints = options.filterSprints || false;
 	var tbody = $('<tbody></tbody>');
 	var thead = $('<thead>' +
@@ -177,8 +178,12 @@ function generateTable(table, options) {
 			generateList(story.acceptanceTerms) + 
 			'</td>');
 		tr.append('<td>' + generateList(story.demoProcedure, 'ordered') + '</td>');
-		tr.append('<td>' + (story.points != null ? story.points + ((story.sprint != null && !story.extra) ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') : (story.estPoints != null ? ('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') : '')) + '</td>');
-		tr.append('<td>' + (story.priority || '') + '</td>');
+		tr.append('<td>' +
+			(story.points != null 
+				? story.points + (story.sprint != null ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') 
+				: (story.estPoints != null ? ('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') : '')) + 
+			'</td>');
+		tr.append('<td>' + (story.priority != null ? story.priority + (storiesPerPriority[story.priority].length > 1 ? ' <span class="text-danger" title="Folgende User Stories haben die gleiche Priorität: #' + storiesPerPriority[story.priority].join(', #') + '"><span class="glyphicon glyphicon-warning-sign"></span></span>' : '') : '') + '</td>');
 		tr.append('<td>' +
 			(story.sprint != null ? ('<span class="badge"' + 
 				(sprints[story.sprint] != null ? ' title="' + sprints[story.sprint].start.format('DD.MM.YYYY') + ' - ' + sprints[story.sprint].end.format('DD.MM.YYYY') + '"' : '') + 
@@ -216,10 +221,23 @@ function calculateSprintStoryPoints() {
 			}
 			if (!story.extra) {
 				result[sprint] += story.points;
-			}
 		}
 	}
 	return result;
+}
+
+function countStoriesPerPriority() {
+	var storiesPerPriority = {};
+	for (i = 0; i < stories.length; i++) {
+		var story = stories[i];
+		if(story.priority != null) {
+			if(storiesPerPriority[story.priority] == null) {
+				storiesPerPriority[story.priority] = [];
+			}
+			storiesPerPriority[story.priority].push(story.id);
+		}
+	}
+	return storiesPerPriority;
 }
 
 function generateList(values, style) {
