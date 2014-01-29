@@ -180,7 +180,7 @@ function generateTable(table, options) {
 		tr.append('<td>' + generateList(story.demoProcedure, 'ordered') + '</td>');
 		tr.append('<td>' +
 			(story.points != null 
-				? story.points + (story.sprint != null ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') 
+				? story.points + (story.sprint != null && !story.extra ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') 
 				: (story.estPoints != null ? ('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') : '')) + 
 			'</td>');
 		tr.append('<td>' + (story.priority != null ? story.priority + (storiesPerPriority[story.priority].length > 1 ? ' <span class="text-danger" title="Folgende User Stories haben die gleiche Priorität: #' + storiesPerPriority[story.priority].join(', #') + '"><span class="glyphicon glyphicon-warning-sign"></span></span>' : '') : '') + '</td>');
@@ -221,6 +221,7 @@ function calculateSprintStoryPoints() {
 			}
 			if (!story.extra) {
 				result[sprint] += story.points;
+			}
 		}
 	}
 	return result;
