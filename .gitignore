@@ -3,5 +3,6 @@
 
 *.log
 
+app/assets/*.html
 public
 node_modules
