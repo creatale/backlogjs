@@ -1,20 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Backlog.js</title>
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-theme.css">
-	<link rel="stylesheet" href="css/app.css">
-	<script src="js/coffee-script.js" type="text/javascript"></script>
-	<script src="js/jquery.js" type="text/javascript"></script>
-	<script src="js/bootstrap.js" type="text/javascript"></script>
-	<script src="js/moment-with-langs.min.js" type="text/javascript"></script>
-	<script src="js/backlog.js" type="text/javascript"></script>
-</head>
-<body>
+module.exports =
+	definitions: []
+	stories: []
+	sprints: {}
+	remarks: []
 
-<script type="text/coffeescript">
+definition = (term, explanation) ->
+	module.exports.definitions.push
+		term: term
+		explanation: explanation
+
+story = (content) ->
+	module.exports.stories.push content
+
+sprint = (content) ->
+	content.start = moment(content.start, "DD.MM.YYYY")  if typeof content.start is "string"
+	content.end = moment(content.end, "DD.MM.YYYY")  if typeof content.end is "string"
+	module.exports.sprints[content.id] = content
+
+remark = (id, content) ->
+	module.exports.remarks[id] = content  if content?
 
 story
 	id: 1
@@ -73,13 +77,11 @@ story
 	]
 	priority: 900
 	estPoints: 20
+
+sprint
+	id: 1
+	start: '10.12.1815'
+	end: '27.11.1852'
 	
 definition 'Maus', 'Eine Hausmaus (Mus musculus), die in von Menschen bewohnten Häusern lebt.'
 definition 'Katze', 'Der Erzfeind aller Hausmäuse - je satter, desto ungefährlicher.'
-
-backlog $('body')
-
-</script>
-
-</body>
-</html>

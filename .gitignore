@@ -1,4 +1,7 @@
-## generic files to ignore
-*~
-*.DS_Store
-Thumbs.db
+.DS_Store
+[Tt]humbs.db
+
+*.log
+
+public
+node_modules

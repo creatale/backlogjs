@@ -1,0 +1,73 @@
+h2 Backlog
+.hidden-print
+	| Gehe zu Sprint:
+table.table.table-condensed
+	thead
+			tr
+				th
+				th
+					| Name
+					a(href='#remark2')
+						sup 2
+				th Beschreibung
+				th Abnahme
+				th Demo
+				th
+					| Story Points
+					a(href='#remark1')
+						sup 1
+					sup ,
+					a(href='#remark3')
+						sup 3
+				th Priorität
+				th Sprint
+				th.hidden-print Notizen
+				th Abhängig­keiten
+		tbody
+			- console.log(stories);
+			for story in stories
+				tr(id='"story' + story.id + '"', class=(newSprint ? ' class="newsprint"' : ''))
+					td
+						| #
+						= story.id
+					td
+						= story.name
+						//-(story.notes != null ? ' <span class="glyphicon glyphicon-question-sign"></span>' : '') +
+					td
+						| EXPL
+						//-+ explain(story.description) + '</td>');
+					td
+						| ACP
+						//-generateList(story.acceptanceTerms) + 
+					td
+						| DEMO
+						//- generateList(story.demoProcedure, 'ordered') + '</td>');
+					td
+						| P
+						//-(story.points != null 
+						//-	? story.points + (story.sprint != null && !story.extra ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') 
+						//-: (story.estPoints != null ? ('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') : '')) + 
+					td
+						| P
+						//- (story.priority != null ? story.priority + (storiesPerPriority[story.priority].length > 1 ? ' <span class="text-danger" title="Folgende User Stories haben die gleiche Priorität: #' + storiesPerPriority[story.priority].join(', #') + '"><span class="glyphicon glyphicon-warning-sign"></span></span>' : '') : '') + '</td>');
+					td
+						| X
+						//-(story.sprint != null ? ('<span class="badge"' + 
+						//-(sprints[story.sprint] != null ? ' title="' + sprints[story.sprint].start.format('DD.MM.YYYY') + ' - ' + sprints[story.sprint].end.format('DD.MM.YYYY') + '"' : '') + 
+						//-'>' + story.sprint + '</span>') : '') +
+					td.hidden-print
+						| X
+						//- generateList(story.notes) + '</td>');
+					td
+						| D
+						//-var dependencies = '';
+						//-if (story.dependencies != null) {
+						//-	var _i2, _len2;
+						//-	for (_i2 = 0, _len2 = story.dependencies.length; _i2 < _len2; _i2++) {
+						//-		var dependency = story.dependencies[_i2];
+						//-		if (dependencies != '') {
+						//-			dependencies += ', ';
+						//-		}
+						//-		dependencies += '<a href="#story' + dependency + '">#' + dependency + '</a>';
+						//-	}
+						//-}
