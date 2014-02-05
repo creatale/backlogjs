@@ -6,26 +6,34 @@ Backlog = require 'models/backlog'
 
 calculateSprintStoryPoints = ->
 	result = {}
-	i = 0
-	while i < Backlog.stories.length
-		story = stories[i]
+	for story in Backlog.stories
 		sprint = story.sprint
 		if sprint? and story.points?
 			result[sprint] = 0  unless result[sprint]?
 			result[sprint] += story.points  unless story.extra
-		i++
 	return result
 
 countStoriesPerPriority = ->
 	storiesPerPriority = {}
-	i = 0
-	while i < Backlog.stories.length
-		story = stories[i]
+	for story in Backlog.stories
 		if story.priority?
 			storiesPerPriority[story.priority] = []  unless storiesPerPriority[story.priority]?
 			storiesPerPriority[story.priority].push story.id
-		i++
 	return storiesPerPriority
+
+byPriority = (a, b) ->
+	if a.priority > b.priority or not b.priority?
+		return -1
+	else if a.priority < b.priority or not a.priority?
+		return 1
+	else
+		return 0
+
+Backlog.sortedStories = Backlog.stories.sort(byPriority)
+Backlog.sprintStoryPoints = calculateSprintStoryPoints()
+Backlog.storiesPerPriority = countStoriesPerPriority()
+#filterSprints = options.filterSprints or false
+#storiesFiltered = stories.filter(bySprint(filterSprints)).sort(byPriority)
 
 class Application
 	constructor: ->
@@ -38,6 +46,6 @@ class Application
 	list: =>
 		view = new ListView Backlog
 		view.render()
-		$('.container').empty().append view.$el
+		$('body').empty().append view.$el
 		
 $ -> new Application()

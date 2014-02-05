@@ -1,6 +1,31 @@
+mixin explain(string)
+	= string
+	//-
+		// replace explained in two passes to avoid replacing terms in the title attribute of the explantion
+		for (_i = 0, _len = definitions.length; _i < _len; _i++) {
+			var definition = definitions[_i];
+			string = string.replace(definition.term, '<a href="#definition' + _i + '"><span class="text-info" title="">' + definition.term + '</span></a>');
+		}
+		for (_i = 0, _len = definitions.length; _i < _len; _i++) {
+			var definition = definitions[_i];
+			string = string.replace('<a href="#definition' + _i + '"><span class="text-info" title="">' + definition.term + '</span></a>', '<a href="#definition' + _i + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
+		}
+
+nav.navbar.navbar-default.navbar-fixed-top.hidden-print(role="navigation")
+	div.container-fluid
+		ul.nav.navbar-nav
+			for story, index in sortedStories
+				if story.sprint
+					li.active
+						a.btn.btn-default.btn-sm(href="#story" + story.id)
+							= story.sprint
+		.navbar-nav.navbar-right
+			.checkbox
+				input#withoutSprint(type='checkbox')
+				label(for='withoutSprint') Ohne Sprint
+
 h2 Backlog
-.hidden-print
-	| Gehe zu Sprint:
+
 table.table.table-condensed
 	thead
 			tr
@@ -24,7 +49,6 @@ table.table.table-condensed
 				th.hidden-print Notizen
 				th Abhängig­keiten
 		tbody
-			- console.log(stories);
 			for story in stories
 				tr(id='"story' + story.id + '"', class=(newSprint ? ' class="newsprint"' : ''))
 					td
@@ -32,42 +56,70 @@ table.table.table-condensed
 						= story.id
 					td
 						= story.name
-						//-(story.notes != null ? ' <span class="glyphicon glyphicon-question-sign"></span>' : '') +
+						if story.notes
+							span.glyphicon.glyphicon-question-sign
 					td
-						| EXPL
-						//-+ explain(story.description) + '</td>');
+						+explain(story.description)
 					td
-						| ACP
-						//-generateList(story.acceptanceTerms) + 
+						ul
+							for acceptanceTerm in story.acceptanceTerms || []
+								li= acceptanceTerm
+
 					td
-						| DEMO
-						//- generateList(story.demoProcedure, 'ordered') + '</td>');
-					td
-						| P
-						//-(story.points != null 
-						//-	? story.points + (story.sprint != null && !story.extra ? '<br />(' + (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%)' : '') 
-						//-: (story.estPoints != null ? ('<span class="nonbinding" title="unverb. Schätzung">(' + story.estPoints + ')</span>') : '')) + 
+						ol
+							for step in story.demoProcedure || []
+								li= step
 					td
 						| P
-						//- (story.priority != null ? story.priority + (storiesPerPriority[story.priority].length > 1 ? ' <span class="text-danger" title="Folgende User Stories haben die gleiche Priorität: #' + storiesPerPriority[story.priority].join(', #') + '"><span class="glyphicon glyphicon-warning-sign"></span></span>' : '') : '') + '</td>');
+						if story.points
+							= story.points
+							if story.sprint && !story.extra
+								br
+								= (story.points * 100 / sprintStoryPoints[story.sprint]).toFixed(1) + '%'
+						else if story.estPoints
+							span.nonbinding(title="unverb. Schätzung")
+								| (
+								= story.estPoints
+								| )
 					td
-						| X
-						//-(story.sprint != null ? ('<span class="badge"' + 
-						//-(sprints[story.sprint] != null ? ' title="' + sprints[story.sprint].start.format('DD.MM.YYYY') + ' - ' + sprints[story.sprint].end.format('DD.MM.YYYY') + '"' : '') + 
-						//-'>' + story.sprint + '</span>') : '') +
+						if story.priority
+							= story.priority
+							if storiesPerPriority[story.priority].length > 1 
+								span.text-danger(title="Folgende User Stories haben die gleiche Priorität: #" + storiesPerPriority[story.priority].join(', #'))
+									span.glyphicon.glyphicon-warning-sign
+					td
+						- var title = "";
+						if sprints[story.sprint]
+							title = sprints[story.sprint].start.format('DD.MM.YYYY') + ' - ' + sprints[story.sprint].end.format('DD.MM.YYYY')
+						span.badge(title=title)
+							= story.sprint 
 					td.hidden-print
-						| X
-						//- generateList(story.notes) + '</td>');
+						ul
+							for note in story.notes || []
+								li=note
 					td
-						| D
-						//-var dependencies = '';
-						//-if (story.dependencies != null) {
-						//-	var _i2, _len2;
-						//-	for (_i2 = 0, _len2 = story.dependencies.length; _i2 < _len2; _i2++) {
-						//-		var dependency = story.dependencies[_i2];
-						//-		if (dependencies != '') {
-						//-			dependencies += ', ';
-						//-		}
-						//-		dependencies += '<a href="#story' + dependency + '">#' + dependency + '</a>';
-						//-	}
-						//-}
+						for dependency, index in story.dependencies || []
+							if index > 0
+								| ,
+							a(href="#story" + dependency)
+								| #
+								= dependency
+
+h2#glossar Glossar
+dl
+	for definition, index in definitions
+		dt(id="definition" + index)
+			= definition.term 
+		dd
+			+explain(definition.explanation) 
+- var remarks = {
+- 	'1': 'Werte in Klammern sind eine unverbindliche Schätzung.',
+-	'2': '<span class="glyphicon glyphicon-question-sign"></span> Zu dieser User Story sind Notizen hinterlegt.',
+-	'3': 'Die Prozente geben den Anteil am Gesamtaufwand (Summe aller Story Points) für den Sprint an.'
+- };
+each remark, id in remarks
+	p
+		b(id="remark" + id)
+			= id
+			| :
+		!= remark
