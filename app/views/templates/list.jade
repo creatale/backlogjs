@@ -1,24 +1,18 @@
 mixin explain(string)
-	= string
-	//-
-		// replace explained in two passes to avoid replacing terms in the title attribute of the explantion
-		for (_i = 0, _len = definitions.length; _i < _len; _i++) {
-			var definition = definitions[_i];
-			string = string.replace(definition.term, '<a href="#definition' + _i + '"><span class="text-info" title="">' + definition.term + '</span></a>');
-		}
-		for (_i = 0, _len = definitions.length; _i < _len; _i++) {
-			var definition = definitions[_i];
-			string = string.replace('<a href="#definition' + _i + '"><span class="text-info" title="">' + definition.term + '</span></a>', '<a href="#definition' + _i + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
-		}
-
-nav.navbar.navbar-default.navbar-fixed-top.hidden-print(role="navigation")
+	//- Replace in two passes to avoid replacing terms in the title attribute of the explanation
+	for definition, index in definitions
+		- string = string.replace(definition.term, '<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>');
+	for definition, index in definitions
+		- string = string.replace('<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>', '<a href="#definition' + index + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
+	!= string
+	
+nav.navbar.navbar-default.hidden-print(role="navigation")
 	div.container-fluid
 		ul.nav.navbar-nav
-			for story, index in sortedStories
-				if story.sprint
-					li.active
-						a.btn.btn-default.btn-sm(href="#story" + story.id)
-							= story.sprint
+			for sprint in sprints
+				li.active
+					a.btn.btn-default.btn-sm(href="#story" + sprint.id)
+						= sprint.id
 		.navbar-nav.navbar-right
 			.checkbox
 				input#withoutSprint(type='checkbox')
