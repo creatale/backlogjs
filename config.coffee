@@ -39,3 +39,5 @@ exports.config =
 					enabled: false
 				cleancss:
 					keepSpecialComments: 0
+	server:
+		port: 9000
