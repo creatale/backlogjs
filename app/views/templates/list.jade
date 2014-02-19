@@ -8,6 +8,8 @@ mixin explain(string)
 	
 nav.navbar.navbar-default.hidden-print(role="navigation")
 	div.container-fluid
+		.navbar-nav
+			button#save.btn.btn-default.navbar-btn(type="button") Save
 		ul.nav.navbar-nav
 			for sprint in sprints
 				li.active
