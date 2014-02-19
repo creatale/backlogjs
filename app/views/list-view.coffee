@@ -17,6 +17,7 @@ module.exports = class ListView
 		#
 		checkbox = @$el.find("#withoutSprint")
 		checkbox.on "change", (event) =>
+			console.warn 'NYI: filter stories with a sprint assigned'
 			@filterSprints = not @filterSprints
 			#TODO: update table.
 		return false
