@@ -3,14 +3,11 @@ Stories = require './stories'
 Terms = require './terms'
 
 module.exports = class Backlog extends Backbone.Model
-	initialize: ->
+	initialize: (attributes, options) ->
 		# Nesting.
-		@sprints = new Sprints(@get('sprints'), {})
-		@sprints.on 'change', @save
-		@stories = new Stories(@get('stories'), {})
-		@stories.on 'change', @save
-		@terms = new Terms(@get('terms'), {})
-		@terms.on 'change', @save
+		@sprints = new Sprints(@get('sprints'), options)
+		@stories = new Stories(@get('stories'), options)
+		@terms = new Terms(@get('terms'), options)
 		# Derived attributes.
 		@updateStoryPoints()
 		@updatePriorities()
@@ -18,15 +15,15 @@ module.exports = class Backlog extends Backbone.Model
 			@updateStoryPoints()
 			@updatePriorities()
 
-	updateStoryPoints: ->
+	updateStoryPoints: =>
 		# Update sums for each user story.
 		for sprint in @sprints.models
-			sprint.points = 0
+			sprint.set 'points', 0
 		for story in @stories.models
-			sprint = @sprints.get story.sprint
-			sprint?.points += story.points
-
-	updatePriorities: ->
+			sprint = @sprints.get(story.get('sprint'))
+			sprint?.set('points', sprint.get('points') + story.get('points'))
+			
+	updatePriorities: =>
 		# Mark user stories with non-unique priorities.
 		for story in @stories.models
 			story.duplicates = []

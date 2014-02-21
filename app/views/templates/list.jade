@@ -71,7 +71,7 @@ table.table.table-condensed
 							= story.points
 							if story.sprint && !story.extra
 								br
-								= (story.points * 100 / sprints.get[story.sprint]).toFixed(1) + '%'
+								= (story.points * 100 / sprints.get(story.sprint).get('points')).toFixed(1) + '%'
 						else if story.estPoints
 							span.nonbinding(title="unverb. Schätzung")
 								| (

@@ -7,7 +7,7 @@ BacklogDB = {
       "acceptanceTerms": [
         "1kg Käse im Kühlschrank"
       ],
-      "demoProcedure": [
+      "scenario": [
         "Kühlschrank aufmachen",
         "Käse rausnehmen und wiegen",
         "Käse zurücklegen und Kühlschrank schließen"
@@ -28,7 +28,7 @@ BacklogDB = {
         "Lochdurchmesser 10cm",
         "Lochtiefe 15cm"
       ],
-      "demoProcedure": [
+      "scenario": [
         "Maus ins Loch setzen",
         "Normhauskatze vor das Loch setzen",
         "Maus bleibt unversehrt"
@@ -46,7 +46,7 @@ BacklogDB = {
         "Ein Schrank im Mauseloch",
         "Ein Tisch im Mauseloch"
       ],
-      "demoProcedure": [
+      "scenario": [
         "Rundgang durch das Mauseloch",
         "Bett zeigen",
         "Schrank zeigen",
@@ -59,13 +59,11 @@ BacklogDB = {
       "estPoints": 20
     }
   ],
-  "sprints": {
-    "1": {
+  "sprints": [{
       "id": 1,
       "start": "1815-12-09T23:00:00.000Z",
       "end": "1852-11-26T23:00:00.000Z"
-    }
-  },
+  }],
   "terms": [
     {
       "term": "Maus",

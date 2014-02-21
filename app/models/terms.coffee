@@ -1,7 +1,11 @@
 class Term extends Backbone.Model
-	term: 'Käse'
-	description: 'Als Maus möchte ich ganz viel Käse im Kühlschrank haben, um immer satt und glücklich zu sein.'
-	#TODO: bedeutung, abgrenzung, gültigkeit, bezeichnung, querverweise
-	
+	defaults: ->
+		term: ''
+		description: ''
+		scope: ''
+		identification: ''
+		references: []	
+
 module.exports = class Terms extends Backbone.Collection
 	model: Term
+	comparator: 'term'

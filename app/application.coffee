@@ -7,7 +7,7 @@ ListView = require 'views/list-view'
 class Application
 	constructor: ->
 		window.onerror = @error
-		@backlog = new Backlog BacklogDB
+		@backlog = new Backlog BacklogDB, {parse: true}
 		@list()
 
 	error: (message, file, line) ->
