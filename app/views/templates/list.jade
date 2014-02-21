@@ -1,8 +1,8 @@
 mixin explain(string)
 	//- Replace in two passes to avoid replacing terms in the title attribute of the explanation
-	for definition, index in definitions
+	for definition, index in terms.toJSON()
 		- string = string.replace(definition.term, '<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>');
-	for definition, index in definitions
+	for definition, index in terms.toJSON()
 		- string = string.replace('<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>', '<a href="#definition' + index + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
 	!= string
 	
@@ -11,7 +11,7 @@ nav.navbar.navbar-default.hidden-print(role="navigation")
 		.navbar-nav
 			button#save.btn.btn-default.navbar-btn(type="button") Save
 		ul.nav.navbar-nav
-			for sprint in sprints
+			for sprint in sprints.toJSON()
 				li.active
 					a.btn.btn-default.btn-sm(href="#story" + sprint.id)
 						= sprint.id
@@ -45,7 +45,7 @@ table.table.table-condensed
 				th.hidden-print Notizen
 				th Abhängig­keiten
 		tbody
-			for story in stories
+			for story in stories.toJSON()
 				tr(id='"story' + story.id + '"', class=(newSprint ? ' class="newsprint"' : ''))
 					td
 						| #
@@ -103,7 +103,7 @@ table.table.table-condensed
 
 h2#glossar Glossar
 dl
-	for definition, index in definitions
+	for definition, index in terms.toJSON()
 		dt(id="definition" + index)
 			= definition.term 
 		dd

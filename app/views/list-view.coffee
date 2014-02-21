@@ -3,8 +3,7 @@ bySprint = (filterSprints) ->
 	return (a) -> filterSprints or not a.sprint?
 
 
-
-module.exports = class ListView
+module.exports = class ListView extends Backbone.View
 	template: require 'views/templates/list'
 	id: 'list'
 	
