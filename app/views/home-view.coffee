@@ -1,10 +1,11 @@
+View = require 'views/base/view'
 
 bySprint = (filterSprints) ->
 	return (a) -> filterSprints or not a.sprint?
 
 
-module.exports = class ListView extends Backbone.View
-	template: require 'views/templates/list'
+module.exports = class HomeView extends View
+	template: require 'views/templates/home'
 	id: 'list'
 	
 	constructor: (@model) ->

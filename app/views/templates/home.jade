@@ -20,7 +20,9 @@ nav.navbar.navbar-default.hidden-print(role="navigation")
 				input#withoutSprint(type='checkbox')
 				label(for='withoutSprint') Ohne Sprint
 
-h2 Backlog
+h2
+	| Backlog - 
+	= this.model.get('name')
 
 table.table.table-condensed
 	thead
