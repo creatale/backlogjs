@@ -1,4 +1,7 @@
-class Story extends Backbone.Model
+Model = require 'models/base/model'
+Collection = require 'models/base/collection'
+
+module.exports.Story = class Story extends Model
 	defaults: ->
 		name: ''
 		description: ''
@@ -14,7 +17,7 @@ class Story extends Backbone.Model
 		response.id = parseInt response.id, 10
 		return response
 
-module.exports = class Stories extends Backbone.Collection
+module.exports.Stories = class Stories extends Collection
 	model: Story
 	comparator: 'id'
 

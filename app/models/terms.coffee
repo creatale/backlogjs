@@ -1,4 +1,7 @@
-class Term extends Backbone.Model
+Model = require 'models/base/model'
+Collection = require 'models/base/collection'
+
+module.exports.Term = class Term extends Model
 	defaults: ->
 		term: ''
 		description: ''
@@ -6,6 +9,6 @@ class Term extends Backbone.Model
 		identification: ''
 		references: []	
 
-module.exports = class Terms extends Backbone.Collection
+module.exports.Terms = class Terms extends Collection
 	model: Term
 	comparator: 'term'

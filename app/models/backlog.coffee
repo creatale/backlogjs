@@ -1,8 +1,10 @@
-Sprints = require './sprints'
-Stories = require './stories'
-Terms = require './terms'
+Model = require 'models/base/model'
+Collection = require 'models/base/collection'
+{Sprints} = require './sprints'
+{Stories} = require './stories'
+{Terms} = require './terms'
 
-module.exports = class Backlog extends Backbone.Model
+module.exports.Backlog = class Backlog extends Model
 	initialize: (attributes, options) ->
 		# Nesting.
 		@sprints = new Sprints(@get('sprints'), options)
