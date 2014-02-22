@@ -1,8 +1,8 @@
 mixin explain(string)
 	//- Replace in two passes to avoid replacing terms in the title attribute of the explanation
-	for definition, index in terms.toJSON()
+	for definition, index in terms
 		- string = string.replace(definition.term, '<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>');
-	for definition, index in terms.toJSON()
+	for definition, index in terms
 		- string = string.replace('<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>', '<a href="#definition' + index + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
 	!= string
 	
@@ -11,7 +11,7 @@ nav.navbar.navbar-default.hidden-print(role="navigation")
 		.navbar-nav
 			button#save.btn.btn-default.navbar-btn(type="button") Save
 		ul.nav.navbar-nav
-			for sprint in sprints.toJSON()
+			for sprint in sprints
 				li.active
 					a.btn.btn-default.btn-sm(href="#story" + sprint.id)
 						= sprint.id
@@ -22,7 +22,7 @@ nav.navbar.navbar-default.hidden-print(role="navigation")
 
 h2
 	| Backlog - 
-	= this.model.get('name')
+	= name
 
 table.table.table-condensed
 	thead
@@ -47,7 +47,7 @@ table.table.table-condensed
 				th.hidden-print Notizen
 				th Abhängig­keiten
 		tbody
-			for story in stories.toJSON()
+			for story in stories
 				tr(id='"story' + story.id + '"', class=(newSprint ? ' class="newsprint"' : ''))
 					td
 						| #
@@ -73,7 +73,8 @@ table.table.table-condensed
 							= story.points
 							if story.sprint && !story.extra
 								br
-								= (story.points * 100 / sprints.get(story.sprint).get('points')).toFixed(1) + '%'
+								-console.log(sprints, story.sprint);
+								//-TODO:= (story.points * 100 / sprints[story.sprint].points).toFixed(1) + '%'
 						else if story.estPoints
 							span.nonbinding(title="unverb. Schätzung")
 								| (
@@ -83,7 +84,7 @@ table.table.table-condensed
 						if story.priority
 							= story.priority
 							= story.priorityDuplicates
-							if story.priorityDuplicates.length > 0
+							//-TODO:if story.priorityDuplicates.length > 0
 								span.text-danger(title="Folgende User Stories haben die gleiche Priorität: #" + story.priorityDuplicates.join(', #'))
 									span.glyphicon.glyphicon-warning-sign
 					td
@@ -106,7 +107,7 @@ table.table.table-condensed
 
 h2#glossar Glossar
 dl
-	for definition, index in terms.toJSON()
+	for definition, index in terms
 		dt(id="definition" + index)
 			= definition.term 
 		dd

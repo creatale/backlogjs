@@ -5,16 +5,18 @@ bySprint = (filterSprints) ->
 
 
 module.exports = class HomeView extends View
+	autoRender: true
 	template: require 'views/templates/home'
 	id: 'list'
-	
-	constructor: (@model) ->
+
+	initialize: (options) ->
+		super
+		@model = options.model
 		@filterSprints = false
 		@fileSaved = true
 	
 	render: =>
-		@$el = $('<div>')
-		@$el.attr('id', @id).html(@template(@model))
+		super
 		# XXX
 		checkbox = @$el.find("#withoutSprint")
 		checkbox.on "change", (event) =>
