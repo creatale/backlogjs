@@ -6,25 +6,12 @@ mixin explain(string)
 		- string = string.replace('<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>', '<a href="#definition' + index + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
 	!= string
 	
-nav.navbar.navbar-default.hidden-print(role="navigation")
-	div.container-fluid
-		.navbar-nav
-			button#save.btn.btn-default.navbar-btn(type="button") Save
-		ul.nav.navbar-nav
-			for sprint in sprints
-				li.active
-					a.btn.btn-default.btn-sm(href="#story" + sprint.id)
-						= sprint.id
-		.navbar-nav.navbar-right
-			.checkbox
-				input#withoutSprint(type='checkbox')
-				label(for='withoutSprint') Ohne Sprint
+h1.page-header
+	| Backlog
+p.lead
+	| Das Backlog enthält in Alltagssprache formulierte User Stories (Software-Anforderungen).
 
-h2
-	| Backlog - 
-	= name
-
-table.table.table-condensed
+table#backlog.table.table-condensed
 	thead
 			tr
 				th
@@ -73,7 +60,7 @@ table.table.table-condensed
 							= story.points
 							if story.sprint && !story.extra
 								br
-								-console.log(sprints, story.sprint);
+								//--console.log(sprints, story.sprint);
 								//-TODO:= (story.points * 100 / sprints[story.sprint].points).toFixed(1) + '%'
 						else if story.estPoints
 							span.nonbinding(title="unverb. Schätzung")
@@ -105,13 +92,6 @@ table.table.table-condensed
 								| #
 								= dependency
 
-h2#glossar Glossar
-dl
-	for definition, index in terms
-		dt(id="definition" + index)
-			= definition.term 
-		dd
-			+explain(definition.explanation) 
 - var remarks = {
 - 	'1': 'Werte in Klammern sind eine unverbindliche Schätzung.',
 -	'2': '<span class="glyphicon glyphicon-question-sign"></span> Zu dieser User Story sind Notizen hinterlegt.',
@@ -123,3 +103,14 @@ each remark, id in remarks
 			= id
 			| :
 		!= remark
+
+h1#glossary.page-header Glossar
+p.lead
+	| Das Glossar enthält Definitionen solcher Begriffe, die wichtig sind und möglicherweise verschieden ausgelegt werden können.
+
+dl
+	for definition, index in terms
+		dt(id="definition" + index)
+			= definition.term 
+		dd
+			+explain(definition.explanation) 
