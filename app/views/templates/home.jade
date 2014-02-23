@@ -11,7 +11,7 @@ h1.page-header
 p.lead
 	| Das Backlog enthält in Alltagssprache formulierte User Stories (Software-Anforderungen).
 
-table#backlog.table.table-condensed
+table#backlog.table.table-condensed.table-hover
 	thead
 			tr
 				th
@@ -114,3 +114,15 @@ dl
 			= definition.term 
 		dd
 			+explain(definition.explanation) 
+
+#story-modal.modal.fade
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+				h4.modal-title User Story #X
+			.modal-body
+				p ... TODO: Formular
+			.modal-footer
+				button.btn.btn-default(type='button', data-dismiss='modal') Abbrechen
+				button.btn.btn-primary(type='button') Speichern
