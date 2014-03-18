@@ -1,44 +1,7 @@
-mixin explain(string)
-	//- Replace in two passes to avoid replacing terms in the title attribute of the explanation
-	for definition, index in terms
-		- string = string.replace(definition.term, '<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>');
-	for definition, index in terms
-		- string = string.replace('<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>', '<a href="#definition' + index + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
-	!= string
-	
-h1.page-header
-	| Backlog
+h1.page-header Backlog
 p.lead
-	| Das Backlog enthält in Alltagssprache formulierte User Stories (Software-Anforderungen).
+    | Dieses Dokument enthält in Alltagssprache formulierte Anforderungen sowie Definitionen und Klärungen domänenspezifischer Begriffe.
 
 #stories
 
-- var remarks = {
-- 	'1': 'Werte in Klammern sind eine unverbindliche Schätzung.',
--	'2': '<span class="glyphicon glyphicon-question-sign"></span> Zu dieser User Story sind Notizen hinterlegt.',
--	'3': 'Die Prozente geben den Anteil am Gesamtaufwand (Summe aller Story Points) für den Sprint an.'
-- };
-each remark, id in remarks
-	p
-		b(id="remark" + id)
-			= id
-			| :
-		!= remark
-
-h1#glossary.page-header Glossar
-p.lead
-	| Das Glossar enthält Definitionen solcher Begriffe, die wichtig sind und möglicherweise verschieden ausgelegt werden können.
-
-dl
-	for definition, index in terms
-		dt(id="definition" + index)
-			= definition.term 
-		dd
-			+explain(definition.explanation) 
-
-		acceptanceTerms: []
-		notes: []
-		scenario: []
-		priority: undefined
-		sprint: undefined
-		points: undefined
+#terms

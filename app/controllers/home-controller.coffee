@@ -4,6 +4,7 @@ HeaderView = require 'views/header-view'
 HomeView = require 'views/home-view'
 StoryListView = require 'views/story/list-view'
 StoryEditView = require 'views/story/edit-view'
+TermListView = require 'views/term/list-view'
 
 module.exports = class HomeController extends Controller
 	index: ->
@@ -15,7 +16,13 @@ module.exports = class HomeController extends Controller
 		@view.subview 'story-list', new StoryListView
 			collection:  @backlog.stories
 			region: 'stories'
+		@view.subview 'term-list', new TermListView
+			collection:  @backlog.terms
+			region: 'terms'
 		@subscribeEvent 'story:edit', (model) ->
 			view = new StoryEditView
 				model: model
 			view.render()
+		@subscribeEvent 'backlog:save', ->
+			db = 'BacklogDB = ' + JSON.stringify(@model.toJSON(), undefined, 2)
+			saveAs(new Blob([db], {type: "text/plain;charset=utf-8"}), 'backlog.js')

@@ -5,10 +5,10 @@ BacklogDB = {
       "id": 1,
       "name": "Käse",
       "description": "Als Maus möchte ich ganz viel Käse im Kühlschrank haben, um immer satt und glücklich zu sein.",
-      "acceptanceTerms": [
+      "requirements": [
         "1kg Käse im Kühlschrank"
       ],
-      "scenario": [
+      "process": [
         "Kühlschrank aufmachen",
         "Käse rausnehmen und wiegen",
         "Käse zurücklegen und Kühlschrank schließen"
@@ -16,7 +16,7 @@ BacklogDB = {
       "priority": 999,
       "points": 42,
       "sprint": 1,
-      "notes": [
+      "comments": [
         "Welche Sorte Käse?"
       ]
     },
@@ -24,12 +24,12 @@ BacklogDB = {
       "id": 2,
       "name": "Mauseloch",
       "description": "Als Maus möchte ich ein Mauseloch in der Wand haben, um vor der Katze sicher zu sein.",
-      "acceptanceTerms": [
+      "requirements": [
         "Am Boden bündiges Loch in der Wand",
         "Lochdurchmesser 10cm",
         "Lochtiefe 15cm"
       ],
-      "scenario": [
+      "process": [
         "Maus ins Loch setzen",
         "Normhauskatze vor das Loch setzen",
         "Maus bleibt unversehrt"
@@ -42,12 +42,12 @@ BacklogDB = {
       "id": 3,
       "name": "Dekoration",
       "description": "Als Maus möchte ich eine schöne Einrichtung für mein Mauseloch, damit ich mich wohl fühle.",
-      "acceptanceTerms": [
+      "requirements": [
         "Ein Bett im Mauseloch",
         "Ein Schrank im Mauseloch",
         "Ein Tisch im Mauseloch"
       ],
-      "scenario": [
+      "process": [
         "Rundgang durch das Mauseloch",
         "Bett zeigen",
         "Schrank zeigen",

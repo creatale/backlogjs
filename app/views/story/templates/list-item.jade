@@ -1,50 +1,40 @@
 td
 	| #
-	= id
+	= locals.id
 td
-	= name
-	if notes
-		span.glyphicon.glyphicon-question-sign
-td
-	//-+explain(description)
-	=description
+	b
+		= locals.name
+	| :
+	= locals.description
+	br
+	if locals.sprint 
+		span.badge
+			| Sprint 
+			= sprint 
+	for dependency, index in locals.dependencies || []
+		a.badge(href="#story" + dependency)
+			| User Story #
+			= dependency
 td
 	ul
-		for acceptanceTerm in acceptanceTerms || []
-			li= acceptanceTerm
-
+		for requirement in locals.requirements || []
+			li= requirement
 td
 	ol
-		for step in demoProcedure || []
-			li= step
+		for activity in locals.process || []
+			li= activity
 td
-	| P
-	if points
-		= points
-		if sprint && !extra
-			br
-			//--console.log(sprints, sprint);
-			//-TODO:= (points * 100 / sprints[sprint].points).toFixed(1) + '%'
-	else if estPoints
-		span.nonbinding(title="unverb. Schätzung")
-			| (
-			= estPoints
-			| )
-td
-	| xxx
-	//- var title = "";
-		if sprints[sprint]
-			title = sprints[sprint].start.format('DD.MM.YYYY') + ' - ' + sprints[sprint].end.format('DD.MM.YYYY')
-		span.badge(title=title)
-			= sprint 
-td.hidden-print
 	ul
-		for note in notes || []
-			li=note
+		for comment in locals.comments || []
+			li=comment
 td
-	for dependency, index in dependencies || []
-		if index > 0
-			| ,
-		a(href="#story" + dependency)
-			| #
-			= dependency
+	if locals.points
+		= locals.points
+		| P
+		if locals.pointsShare
+			| (
+			= locals.pointsShare.toFixed(1)
+			| )
+		if locals.nonCommital
+			| 
+			span.glyphicon.glyphicon-comment(title='Unverbindliche Schätzung')

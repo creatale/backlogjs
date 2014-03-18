@@ -5,12 +5,14 @@ module.exports.Story = class Story extends Model
 	defaults: ->
 		name: ''
 		description: ''
-		acceptanceTerms: []
+		requirements: []
+		process: []
 		notes: []
-		scenario: []
 		priority: undefined
 		sprint: undefined
 		points: undefined
+		pointsShare: undefined
+		nonCommital: true
 		#dependencies
 
 	parse: (response, options) ->

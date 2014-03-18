@@ -16,4 +16,15 @@ module.exports = class StoryListView extends CollectionView
 	autoRender: true
 	template: require 'views/story/templates/list'
 	listSelector: 'tbody'
+	id: 'story-list'
 	itemView: ListItemView
+
+###
+mixin explain(string)
+	//- Replace in two passes to avoid replacing terms in the title attribute of the explanation
+	for definition, index in terms
+		- string = string.replace(definition.term, '<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>');
+	for definition, index in terms
+		- string = string.replace('<a href="#definition' + index + '"><span class="text-info" title="">' + definition.term + '</span></a>', '<a href="#definition' + index + '"><span class="text-info" title="' + definition.explanation + '">' + definition.term + '</span></a>');
+	!= string
+###

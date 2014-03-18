@@ -9,7 +9,7 @@ module.exports = class EditView extends ModalView
 		@$('#us-id').text(@model.get('id'))
 		for attribute in ['name', 'description', 'points', 'sprint']
 			@$('#us-' + attribute).val(@model.get(attribute))
-		for attribute in ['acceptanceTerms', 'scenario', 'notes']
+		for attribute in ['requirements', 'process', 'notes']
 			@$('#us-' + attribute).val(@model.get(attribute).join("\n"))
 		@$('#us-dependencies' + attribute).val(@model.get(attribute).join(', '))
 		@$('#us-non-commital').attr('checked', @model.get('non-commital'))
@@ -19,7 +19,7 @@ module.exports = class EditView extends ModalView
 		id = @$('#us-id').text()
 		for attribute in ['name', 'points', 'sprint']
 			@model.set(attribute, @$('#us-' + attribute).val())
-		for attribute in ['acceptanceTerms', 'scenario', 'notes']
+		for attribute in ['requirements', 'process', 'notes']
 			@model.set(attribute, @$('#us-' + attribute).val().split("\n").map((item) -> item.trim()))
 		@model.set('dependencies', @$('#us-dependencies').val().split(',').map((item) -> item.trim()))
 		@model.set('non-commital', @$('#us-non-commital').attr('checked'))
