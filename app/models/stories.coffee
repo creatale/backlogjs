@@ -9,9 +9,9 @@ module.exports.Story = class Story extends Model
 		notes: []
 		scenario: []
 		priority: undefined
-		priorityDuplicates: []
 		sprint: undefined
 		points: undefined
+		#dependencies
 
 	parse: (response, options) ->
 		response.id = parseInt response.id, 10

@@ -36,4 +36,5 @@ module.exports.Backlog = class Backlog extends Model
 		for priority, duplicates of duplicatesByPriority
 			for duplicate in duplicates
 				story = @stories.get duplicate
-				story?.priorityDuplicates = duplicates.filter (id) -> id isnt story.id
+				#TODO: throw an exception here or something like that
+				#story?.priorityDuplicates = duplicates.filter (id) -> id isnt story.id

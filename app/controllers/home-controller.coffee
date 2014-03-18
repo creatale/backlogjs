@@ -1,7 +1,9 @@
 Controller = require 'controllers/base/controller'
 {Backlog} = require 'models/backlog'
-HomeView = require 'views/home-view'
 HeaderView = require 'views/header-view'
+HomeView = require 'views/home-view'
+StoryListView = require 'views/story/list-view'
+StoryEditView = require 'views/story/edit-view'
 
 module.exports = class HomeController extends Controller
 	index: ->
@@ -10,3 +12,10 @@ module.exports = class HomeController extends Controller
 		@view = new HomeView
 			model: @backlog
 			region: 'main'
+		@view.subview 'story-list', new StoryListView
+			collection:  @backlog.stories
+			region: 'stories'
+		@subscribeEvent 'story:edit', (model) ->
+			view = new StoryEditView
+				model: model
+			view.render()

@@ -11,86 +11,7 @@ h1.page-header
 p.lead
 	| Das Backlog enthält in Alltagssprache formulierte User Stories (Software-Anforderungen).
 
-table#backlog.table.table-condensed.table-hover
-	thead
-			tr
-				th
-				th
-					| Name
-					a(href='#remark2')
-						sup 2
-				th Beschreibung
-				th Abnahme
-				th Demo
-				th
-					| Story Points
-					a(href='#remark1')
-						sup 1
-					sup ,
-					a(href='#remark3')
-						sup 3
-				th Priorität
-				th Sprint
-				th.hidden-print Notizen
-				th Abhängig­keiten
-		tbody
-			for story in stories
-				tr(id='"story' + story.id + '"', class=(newSprint ? ' class="newsprint"' : ''))
-					td
-						| #
-						= story.id
-					td
-						= story.name
-						if story.notes
-							span.glyphicon.glyphicon-question-sign
-					td
-						+explain(story.description)
-					td
-						ul
-							for acceptanceTerm in story.acceptanceTerms || []
-								li= acceptanceTerm
-
-					td
-						ol
-							for step in story.demoProcedure || []
-								li= step
-					td
-						| P
-						if story.points
-							= story.points
-							if story.sprint && !story.extra
-								br
-								//--console.log(sprints, story.sprint);
-								//-TODO:= (story.points * 100 / sprints[story.sprint].points).toFixed(1) + '%'
-						else if story.estPoints
-							span.nonbinding(title="unverb. Schätzung")
-								| (
-								= story.estPoints
-								| )
-					td
-						if story.priority
-							= story.priority
-							= story.priorityDuplicates
-							//-TODO:if story.priorityDuplicates.length > 0
-								span.text-danger(title="Folgende User Stories haben die gleiche Priorität: #" + story.priorityDuplicates.join(', #'))
-									span.glyphicon.glyphicon-warning-sign
-					td
-						- var title = "";
-						if sprints[story.sprint]
-							title = sprints[story.sprint].start.format('DD.MM.YYYY') + ' - ' + sprints[story.sprint].end.format('DD.MM.YYYY')
-						span.badge(title=title)
-							= story.sprint 
-					td.hidden-print
-						ul
-							for note in story.notes || []
-								li=note
-					td
-						for dependency, index in story.dependencies || []
-							if index > 0
-								| ,
-							a(href="#story" + dependency)
-								| #
-								= dependency
+#stories
 
 - var remarks = {
 - 	'1': 'Werte in Klammern sind eine unverbindliche Schätzung.',
@@ -115,14 +36,9 @@ dl
 		dd
 			+explain(definition.explanation) 
 
-#story-modal.modal.fade
-	.modal-dialog
-		.modal-content
-			.modal-header
-				button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-				h4.modal-title User Story #X
-			.modal-body
-				p ... TODO: Formular
-			.modal-footer
-				button.btn.btn-default(type='button', data-dismiss='modal') Abbrechen
-				button.btn.btn-primary(type='button') Speichern
+		acceptanceTerms: []
+		notes: []
+		scenario: []
+		priority: undefined
+		sprint: undefined
+		points: undefined

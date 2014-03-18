@@ -1,0 +1,51 @@
+.modal-dialog.modal-lg
+	.modal-content
+		.modal-header
+			button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+			h4.modal-title
+				| User Story #
+				span#us-id 0
+		.modal-body
+			form.form-horizontal(role='form')
+				.form-group
+					label.control-label.col-sm-2(for='us-name') Name
+					.col-sm-5
+						input#us-name.form-control(type='text', placeholder='Name')
+				.form-group
+					label.control-label.col-sm-2(for='us-description') Beschreibung
+					.col-sm-10
+						textarea#us-description.form-control(rows=3, placeholder='Beschreibung')
+				.form-group
+					label.control-label.col-sm-2(for='us-acceptanceTerms') Abnahme
+					.col-sm-10
+						textarea#us-acceptanceTerms.form-control(rows=3, placeholder='Abnahme')
+				.form-group
+					label.control-label.col-sm-2(for='us-scenario') Demo
+					.col-sm-10
+						textarea#us-scenario.form-control(rows=3, placeholder='Demo')
+				.form-group
+					label.control-label.col-sm-2(for='us-notes') Notizen
+					.col-sm-10
+						textarea#us-notes.form-control(rows=3, placeholder='Notizen')
+				.form-group
+					label.control-label.col-sm-2(for='us-dependencies') Abhängigkeiten
+					.col-sm-10
+						input#us-dependencies.form-control(type='text', placeholder='Abhängigkeiten')
+				.form-group
+					label.control-label.col-sm-2(for='us-points') Story Points
+					.col-sm-2
+						input#us-points.form-control(type='number', min=0)
+					.checkbox.col-sm-8
+						label
+							input#us-non-commital(type='checkbox')
+							| Unverbindlich
+				.form-group
+					label.control-label.col-sm-2(for='us-sprint') Sprint
+					.col-sm-2
+						select#us-sprint.form-control
+							option 1
+							option 2
+							option 3
+		.modal-footer
+			button.cancel.btn.btn-default(type='button', data-dismiss='modal') Abbrechen
+			button.save.btn.btn-primary(type='button') Speichern

@@ -1,0 +1,50 @@
+td
+	| #
+	= id
+td
+	= name
+	if notes
+		span.glyphicon.glyphicon-question-sign
+td
+	//-+explain(description)
+	=description
+td
+	ul
+		for acceptanceTerm in acceptanceTerms || []
+			li= acceptanceTerm
+
+td
+	ol
+		for step in demoProcedure || []
+			li= step
+td
+	| P
+	if points
+		= points
+		if sprint && !extra
+			br
+			//--console.log(sprints, sprint);
+			//-TODO:= (points * 100 / sprints[sprint].points).toFixed(1) + '%'
+	else if estPoints
+		span.nonbinding(title="unverb. Schätzung")
+			| (
+			= estPoints
+			| )
+td
+	| xxx
+	//- var title = "";
+		if sprints[sprint]
+			title = sprints[sprint].start.format('DD.MM.YYYY') + ' - ' + sprints[sprint].end.format('DD.MM.YYYY')
+		span.badge(title=title)
+			= sprint 
+td.hidden-print
+	ul
+		for note in notes || []
+			li=note
+td
+	for dependency, index in dependencies || []
+		if index > 0
+			| ,
+		a(href="#story" + dependency)
+			| #
+			= dependency
