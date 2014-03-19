@@ -19,9 +19,10 @@ module.exports = class HomeController extends Controller
 		@view.subview 'term-list', new TermListView
 			collection:  @backlog.terms
 			region: 'terms'
-		@subscribeEvent 'story:edit', (model) ->
+		@subscribeEvent 'story:edit', (id) ->
 			view = new StoryEditView
-				model: model
+				model: @backlog
+				id: id
 			view.render()
 		@subscribeEvent 'backlog:save', ->
 			db = 'BacklogDB = ' + JSON.stringify(@model.toJSON(), undefined, 2)
