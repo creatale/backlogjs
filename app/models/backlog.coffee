@@ -37,4 +37,6 @@ module.exports.Backlog = class Backlog extends Model
 			for duplicate in duplicates
 				story = @stories.get duplicate
 				#TODO: throw an exception here or something like that
-				#story?.priorityDuplicates = duplicates.filter (id) -> id isnt story.id
+				duplicates = duplicates.filter (id) -> id isnt story.id
+				if duplicates.length > 0
+					throw new Error 'Duplicated priorities'

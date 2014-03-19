@@ -23,13 +23,14 @@ module.exports.Stories = class Stories extends Collection
 	model: Story
 	comparator: 'id'
 
-	#comparator: (a, b) ->
-	#	if a.priority > b.priority or not b.priority?
-	#		return -1
-	#	else if a.priority < b.priority or not a.priority?
-	#		return 1
-	#	else
-	#		return 0
+	constructor: ->
+		super
+		@on 'change:priority', => @sort()
 
-	#filterWithIds: (ids) ->
-	#	_(@models.filter (c) -> _.contains ids, c.id)
+	comparator: (a, b) ->
+		if a.get('priority') > b.get('priority') or not b.get('priority')?
+			return -1
+		else if a.get('priority') < b.get('priority') or not a.get('priority')?
+			return 1
+		else
+			return 0

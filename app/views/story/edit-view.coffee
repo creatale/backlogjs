@@ -17,7 +17,7 @@ module.exports = class EditView extends ModalView
 
 	initialize: (options) =>
 		super
-		@story = @model.stories.get options.id
+		@story = @model.stories.get options.story
 
 	render: =>
 		super
@@ -26,8 +26,8 @@ module.exports = class EditView extends ModalView
 		for attribute in ['name', 'description', 'points', 'sprint']
 			@$('#us-' + attribute).val(@story.get(attribute))
 		for attribute in ['requirements', 'process', 'comments']
-			@$('#us-' + attribute).val(@story.get(attribute).join("\n"))
-		@$('#us-dependencies' + attribute).val(@story.get(attribute).join(', '))
+			@$('#us-' + attribute).val(@story.get(attribute)?.join("\n"))
+		@$('#us-dependencies' + attribute).val(@story.get(attribute)?.join(', '))
 		@$('#us-non-commital').attr('checked', @story.get('nonCommital'))
 		return @
 

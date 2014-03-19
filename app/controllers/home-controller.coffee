@@ -19,11 +19,19 @@ module.exports = class HomeController extends Controller
 		@view.subview 'term-list', new TermListView
 			collection:  @backlog.terms
 			region: 'terms'
-		@subscribeEvent 'story:edit', (id) ->
+		@subscribeEvent 'story:edit', (story) =>
 			view = new StoryEditView
 				model: @backlog
-				id: id
+				story: story
 			view.render()
-		@subscribeEvent 'backlog:save', ->
+		@subscribeEvent 'story:swap', (story, offset) => 
+			stories = @backlog.stories
+			otherStory = stories.at(Math.max(0, Math.min(stories.indexOf(story) + offset, stories.size() - 1)))
+			a = story.get 'priority'
+			b = otherStory.get 'priority'
+			story.set 'priority', b
+			otherStory.set 'priority', a
+			@publishEvent 'story:select', story, true
+		@subscribeEvent 'backlog:save', =>
 			db = 'BacklogDB = ' + JSON.stringify(@model.toJSON(), undefined, 2)
 			saveAs(new Blob([db], {type: "text/plain;charset=utf-8"}), 'backlog.js')
