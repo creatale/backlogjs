@@ -3,10 +3,10 @@ View = require 'views/base/view'
 
 class ListItemView extends View
 	template: require 'views/term/templates/list-item'
-	tagName: 'dt'
+	tagName: 'tr'
 
-module.exports = class StoryListView extends CollectionView
+module.exports = class TermListView extends CollectionView
 	autoRender: true
 	template: require 'views/term/templates/list'
-	listSelector: 'dl'
+	listSelector: 'tbody'
 	itemView: ListItemView
