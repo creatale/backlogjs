@@ -33,5 +33,5 @@ module.exports = class HomeController extends Controller
 			otherStory.set 'priority', a
 			@publishEvent 'story:select', story, true
 		@subscribeEvent 'backlog:save', =>
-			db = 'BacklogDB = ' + JSON.stringify(@model.toJSON(), undefined, 2)
+			db = 'BacklogDB = ' + JSON.stringify(@backlog.toJSON(), undefined, 2)
 			saveAs(new Blob([db], {type: "text/plain;charset=utf-8"}), 'backlog.js')

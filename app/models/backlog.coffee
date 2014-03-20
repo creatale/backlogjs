@@ -40,3 +40,11 @@ module.exports.Backlog = class Backlog extends Model
 				duplicates = duplicates.filter (id) -> id isnt story.id
 				if duplicates.length > 0
 					throw new Error 'Duplicated priorities'
+
+	toJSON: (options) =>
+		object = {}
+		object.name = @get 'name'
+		object.terms = @terms.toJSON options
+		object.sprints = @sprints.toJSON options
+		object.stories = @stories.toJSON options
+		return object

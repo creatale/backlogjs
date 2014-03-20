@@ -13,6 +13,11 @@ module.exports.Sprint = class Sprint extends Model
 		response.end = moment response.end
 		return response
 		
+	toJSON: (options) =>
+		object = super options
+		delete object['points']
+		return object
+
 module.exports.Sprints = class Sprints extends Collection
 	model: Sprint
 	comparator: 'id'

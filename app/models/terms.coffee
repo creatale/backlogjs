@@ -7,7 +7,14 @@ module.exports.Term = class Term extends Model
 		description: ''
 		scope: ''
 		identification: ''
-		references: []	
+		references: []
+
+	toJSON: (options) =>
+		object = _.clone @attributes
+		for key, value of object
+			if value in [null, undefined, ''] or _.isNaN(value) or _.isEqual(value, {}) or (_.isArray(value) and value.length is 0)
+				delete object[key]
+		return object
 
 module.exports.Terms = class Terms extends Collection
 	model: Term
