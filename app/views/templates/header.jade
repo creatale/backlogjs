@@ -1,0 +1,30 @@
+nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+	.container-fluid
+		.navbar-header
+			button.navbar-toggle(type="button" data-toggle="collapse" data-target="#navbar-collapse-1")
+				span.icon-bar
+				span.icon-bar
+				span.icon-bar
+			a.navbar-brand(href='/')
+				img(src="images/icon-32.png", alt="Icon")
+				= name
+
+		#navbar-collapse-1.navbar-collapse.collapse
+			button#save.btn.btn-default.navbar-btn.navbar-left(type='button')
+				span.glyphicon.glyphicon-floppy-save
+
+			ul.nav.navbar-nav.navbar-right
+				li.dropdown
+					a.dropdown-toggle(data-toggle="dropdown", href='#')
+						| Sprints
+						b.caret
+					ul.dropdown-menu
+						for sprint in sprints
+							li: a(href='#')
+								| Sprint 
+								= sprint.id
+				li
+					a(href='#glossary') Glossar
+
+			form.navbar-form.navbar-right(role='search')
+				input.form-control(type='text', placeholder='Suche...')

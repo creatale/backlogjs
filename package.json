@@ -1,0 +1,28 @@
+{
+  "name": "backlogjs",
+  "version": "0.0.1",
+  "description": "Backlog.js",
+  "author": "creatale",
+  "contributors": [
+    "Christoph Schulz",
+    "Christian Dittrich"
+  ],
+  "scripts": {
+    "start": "brunch watch --server"
+  },
+  "dependencies": {
+    "javascript-brunch": ">= 1.0 < 1.8",
+    "coffee-script-brunch": ">= 1.0 < 1.8",
+    "css-brunch": ">= 1.0 < 1.8",
+    "stylus-brunch": ">= 1.0 < 1.8",
+    "jade-brunch": ">= 1.0 < 1.8",
+    "static-jade-brunch": ">= 1.0 < 1.8",
+    "uglify-js-brunch": ">= 1.0 < 1.8",
+    "clean-css-brunch": ">= 1.0 < 1.8",
+    "auto-reload-brunch": ">= 1.0 < 1.8"
+  },
+  "engines": {
+    "node": ">=0.10.x"
+  },
+  "license": "MIT"
+}

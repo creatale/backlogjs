@@ -1,0 +1,52 @@
+td
+	| #
+	= locals.id
+td
+	if (locals.name)
+		b
+			= locals.name
+		| :
+	= locals.description
+	br
+	if locals.sprint 
+		span.badge
+			| Sprint 
+			= sprint
+	for dependency, index in locals.dependencies || []
+		a.badge(href="#story" + dependency)
+			| #
+			= dependency
+td
+	ul
+		for requirement in locals.requirements || []
+			li= requirement
+td
+	ol
+		for activity in locals.process || []
+			li= activity
+td
+	ul
+		for comment in locals.comments || []
+			li=comment
+td
+	if locals.points
+		= locals.points
+		| P
+		br
+		if locals.pointsShare
+			| (
+			= locals.pointsShare.toFixed(1)
+			| )
+			br
+		if locals.nonCommital
+			| 
+			span.glyphicon.glyphicon-comment(title='Unverbindliche Schätzung')
+td.action-bar.hidden-print
+	button.edit
+		span.glyphicon.glyphicon-edit
+	br
+	button.add
+		span.glyphicon.glyphicon-plus
+	br
+	button.remove
+		span.glyphicon.glyphicon-minus
