@@ -1,5 +1,27 @@
 BacklogDB = {
   "name": "Mäuseparadies",
+  "terms": [
+    {
+      "term": "Katze",
+      "explanation": "Der Erzfeind aller Hausmäuse - je satter, desto ungefährlicher."
+    },
+    {
+      "term": "Maus",
+      "explanation": "Eine Hausmaus (Mus musculus), die in von Menschen bewohnten Häusern lebt."
+    }
+  ],
+  "sprints": [
+    {
+      "id": 1,
+      "start": "1815-12-09T23:00:00.000Z",
+      "end": "1852-11-26T23:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "start": "1815-12-27T23:00:00.000Z",
+      "end": "1852-11-28T23:00:00.000Z"
+    }
+  ],
   "stories": [
     {
       "id": 1,
@@ -35,8 +57,9 @@ BacklogDB = {
         "Maus bleibt unversehrt"
       ],
       "priority": 995,
-      "points": 13,
-      "sprint": 1
+      "points": "13",
+      "sprint": "2",
+      "nonCommital": true
     },
     {
       "id": 3,
@@ -58,26 +81,6 @@ BacklogDB = {
       ],
       "priority": 900,
       "estPoints": 20
-    }
-  ],
-  "sprints": [{
-      "id": 1,
-      "start": "1815-12-09T23:00:00.000Z",
-      "end": "1852-11-26T23:00:00.000Z"
-  },
-  {
-      "id": 2,
-      "start": "1815-12-27T23:00:00.000Z",
-      "end": "1852-11-28T23:00:00.000Z"
-  }],
-  "terms": [
-    {
-      "term": "Maus",
-      "explanation": "Eine Hausmaus (Mus musculus), die in von Menschen bewohnten Häusern lebt."
-    },
-    {
-      "term": "Katze",
-      "explanation": "Der Erzfeind aller Hausmäuse - je satter, desto ungefährlicher."
     }
   ]
 }
