@@ -56,13 +56,7 @@ module.exports.Stories = class Stories extends Collection
 		@on 'change:priority', => @sort()
 		@sort()
 
-	comparator: (a, b) ->
-		if a.get('priority') > b.get('priority')
-			return -1
-		else if a.get('priority') < b.get('priority')
-			return 1
-		else
-			return 0
+	comparator: (a, b) -> a.get('priority') - b.get('priority')
 
 	toJSON: (options) ->
 		array = super options

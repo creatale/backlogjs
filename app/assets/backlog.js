@@ -3,11 +3,11 @@ BacklogDB = {
   "terms": [
     {
       "term": "Katze",
-      "explanation": "Der Erzfeind aller Hausmäuse - je satter, desto ungefährlicher."
+      "description": "Der Erzfeind aller Hausmäuse - je satter, desto ungefährlicher."
     },
     {
       "term": "Maus",
-      "explanation": "Eine Hausmaus (Mus musculus), die in von Menschen bewohnten Häusern lebt."
+      "description": "Eine Hausmaus (Mus musculus), die in von Menschen bewohnten Häusern lebt."
     }
   ],
   "sprints": [
@@ -35,7 +35,7 @@ BacklogDB = {
         "Käse rausnehmen und wiegen",
         "Käse zurücklegen und Kühlschrank schließen"
       ],
-      "priority": 999,
+      "priority": 1,
       "points": 42,
       "sprint": 1,
       "comments": [
@@ -56,7 +56,7 @@ BacklogDB = {
         "Normhauskatze vor das Loch setzen",
         "Maus bleibt unversehrt"
       ],
-      "priority": 995,
+      "priority": 5,
       "points": "13",
       "sprint": "2",
       "nonCommital": true
@@ -79,8 +79,7 @@ BacklogDB = {
       "dependencies": [
         2
       ],
-      "priority": 900,
-      "estPoints": 20
+      "priority": 10
     }
   ]
 }
