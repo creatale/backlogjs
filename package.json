@@ -19,7 +19,9 @@
     "static-jade-brunch": ">= 1.0 < 1.8",
     "uglify-js-brunch": ">= 1.0 < 1.8",
     "clean-css-brunch": ">= 1.0 < 1.8",
-    "auto-reload-brunch": ">= 1.0 < 1.8"
+    "auto-reload-brunch": ">= 1.0 < 1.8",
+    "async": ">= 0.6.0",
+    "cheerio": ">= 0.13.1"
   },
   "engines": {
     "node": ">=0.10.x"
