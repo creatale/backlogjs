@@ -10,9 +10,9 @@ class ListItemView extends View
 		'click': 'click'
 		'focus': 'focus'
 		'keydown': 'keypress'
-		'click .edit': 'edit'
-		'click .add': 'add'
-		'click .remove': 'remove'
+		'click .edit': 'editStory'
+		'click .add': 'addStory'
+		'click .remove': 'removeStory'
 
 	render: =>
 		super
@@ -35,14 +35,14 @@ class ListItemView extends View
 			# Return
 			@publishEvent 'story:edit', @model
 
-	edit: (event) =>
+	editStory: (event) =>
 		@publishEvent 'story:edit', @model
 
-	add: (event) =>
-		console.log 'NYI: add'
+	addStory: (event) =>
+		@publishEvent 'story:add', @model
 
-	remove: (event) =>
-		console.log 'NYI: remove'
+	removeStory: (event) =>
+		@publishEvent 'story:remove', @model
 
 module.exports = class StoryListView extends CollectionView
 	autoRender: true
@@ -59,9 +59,12 @@ module.exports = class StoryListView extends CollectionView
 
 	select: (model, refocus) =>
 		@selectedItem.removeClass 'active' if @selectedItem?
-		@selectedItem = @getItemViews()[model.cid].$el
-		@selectedItem.addClass 'active'
-		@selectedItem.focus() if refocus
+		if model?
+			@selectedItem = @getItemViews()[model.cid].$el
+			@selectedItem.addClass 'active'
+			@selectedItem.focus() if refocus
+		else
+			@selectedItem = null
 		
 ###
 mixin explain(string)

@@ -1,5 +1,6 @@
 Controller = require 'controllers/base/controller'
 {Backlog} = require 'models/backlog'
+{Story} = require 'models/stories'
 HeaderView = require 'views/header-view'
 HomeView = require 'views/home-view'
 StoryListView = require 'views/story/list-view'
@@ -19,6 +20,16 @@ module.exports = class HomeController extends Controller
 		@view.subview 'term-list', new TermListView
 			collection:  @backlog.terms
 			region: 'terms'
+		@subscribeEvent 'story:add', (story) =>
+			maxId = 0
+			for otherStory in @backlog.stories.models
+				maxId = Math.max(otherStory.id, maxId)
+			newStory = new Story
+				id: maxId + 1
+				priority: story.get('priority') + 1
+			@backlog.stories.add newStory
+		@subscribeEvent 'story:remove', (story) =>
+			@backlog.stories.remove story
 		@subscribeEvent 'story:edit', (story) =>
 			view = new StoryEditView
 				model: @backlog
