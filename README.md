@@ -1,6 +1,6 @@
 # Backlog.js
 
-Backlog.js is a auto-magical document for [Scrum](http://en.wikipedia.org/wiki/Scrum_%28software_development%29) user stories, sprints and terms.
+Backlog.js is an auto-magical document for [Scrum](http://en.wikipedia.org/wiki/Scrum_%28software_development%29) user stories, sprints and terms.
 
 ## Features
 
