@@ -33,7 +33,7 @@ module.exports = class EditView extends ModalView
 
 	save: (event) =>
 		id = @$('#us-id').text()
-		for attribute in ['name', 'points', 'sprint']
+		for attribute in ['name', 'description', 'points', 'sprint']
 			@story.set(attribute, parseValue(@$('#us-' + attribute).val()))
 		for attribute in ['requirements', 'process', 'comments']
 			@story.set(attribute, parseArray(@$('#us-' + attribute).val(), "\n"))
