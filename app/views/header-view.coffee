@@ -7,5 +7,9 @@ module.exports = class HeaderView extends View
 	events:
 		'click #save': 'save'
 
+	render: =>
+		super
+		document.title = @model.get('name') + ' - Backlog'
+
 	save: (event) =>
 		@publishEvent 'backlog:save'
