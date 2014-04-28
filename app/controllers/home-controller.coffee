@@ -43,6 +43,15 @@ module.exports = class HomeController extends Controller
 			story.set 'priority', b
 			otherStory.set 'priority', a
 			@publishEvent 'story:select', story, true
+		@subscribeEvent 'backlog:search', (search) =>
+			if search.substr(0, 1) is '/'
+				re = new RegExp(search.replace(/^\//, '').replace(/\/$/, ''), 'i')
+			else
+				re = new RegExp(search.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'i')
+			storyView = @view.subview 'story-list'
+			storyView.filter (item, index) ->
+				text = (item.get('name') + item.get('description'))
+				return re.test text
 		@subscribeEvent 'backlog:save', =>
 			db = 'BacklogDB = ' + JSON.stringify(@backlog.toJSON(), undefined, 2)
 			saveAs(new Blob([db], {type: "text/plain;charset=utf-8"}), 'backlog.js')

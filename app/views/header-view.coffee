@@ -6,10 +6,15 @@ module.exports = class HeaderView extends View
 	template: require './templates/header'
 	events:
 		'click #save': 'save'
+		'input #search': 'search'
 
 	render: =>
 		super
 		document.title = @model.get('name') + ' - Backlog'
 
-	save: (event) =>
+	save: =>
 		@publishEvent 'backlog:save'
+
+	search: _.debounce ->
+		@publishEvent 'backlog:search', @$('#search').val()
+	, 200
